@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Volume Calculator</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f4f4f4;
+    }
+
+    .container {
+        text-align: center;
+    }
+
+    input[type="number"] {
+        width: 60px;
+        padding: 5px;
+        margin: 5px;
+    }
+
+    button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+    }
+
+    #result {
+        margin-top: 20px;
+    }
+
+    .error {
+        color: red;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Volume Calculator</h2>
+    <label for="length">Length (Feet, Inches):</label><br>
+    <input type="number" id="lengthFeet" placeholder="Feet">
+    <input type="number" id="lengthInches" placeholder="Inches"><br>
+    <label for="width">Width (Feet, Inches):</label><br>
+    <input type="number" id="widthFeet" placeholder="Feet">
+    <input type="number" id="widthInches" placeholder="Inches"><br>
+    <label for="height">Height (Feet, Inches):</label><br>
+    <input type="number" id="heightFeet" placeholder="Feet">
+    <input type="number" id="heightInches" placeholder="Inches"><br>
+    <button onclick="calculateVolume()">Calculate</button>
+    <div id="result"></div>
+</div>
+
+<script>
+    function calculateVolume() {
+        const lengthFeet = parseFloat(document.getElementById("lengthFeet").value);
+        const lengthInches = parseFloat(document.getElementById("lengthInches").value);
+        const widthFeet = parseFloat(document.getElementById("widthFeet").value);
+        const widthInches = parseFloat(document.getElementById("widthInches").value);
+        const heightFeet = parseFloat(document.getElementById("heightFeet").value);
+        const heightInches = parseFloat(document.getElementById("heightInches").value);
+
+        if (isNaN(lengthFeet) || isNaN(lengthInches) || isNaN(widthFeet) || isNaN(widthInches) || isNaN(heightFeet) || isNaN(heightInches)) {
+            showError("All dimensions must be numbers.");
+            return;
+        }
+
+        if (lengthFeet === 0 && lengthInches === 0 && widthFeet === 0 && widthInches === 0 && heightFeet === 0 && heightInches === 0) {
+            showError("All dimensions cannot be empty.");
+            return;
+        }
+
+        const totalLength = lengthFeet + (lengthInches / 12);
+        const totalWidth = widthFeet + (widthInches / 12);
+        const totalHeight = heightFeet + (heightInches / 12);
+
+        const volumeCubicFeet = totalLength * totalWidth * totalHeight;
+        const volumeCubicFeetInt = Math.floor(volumeCubicFeet);
+        const volumeCubicInches = Math.round((volumeCubicFeet - volumeCubicFeetInt) * 1728);
+
+        document.getElementById("result").innerText = `Total Volume: ${volumeCubicFeetInt} cubic feet (${volumeCubicInches} cubic inches)`;
+    }
+
+    function showError(message) {
+        document.getElementById("result").innerHTML = `<p class="error">${message}</p>`;
+    }
+</script>
+
+</body>
+  </html>
